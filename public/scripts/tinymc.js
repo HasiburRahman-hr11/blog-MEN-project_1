@@ -1,7 +1,7 @@
 window.onload = () => {
     tinymce.init({
         selector: 'textarea#tiny-mce-post-body',
-        plugins: ' casechange export formatpainter linkchecker autolink lists link image media preview imagetools searchreplace wordcount emoticons pageembed permanentpen powerpaste table advtable tinymcespellchecker',
+        plugins: '  autolink lists link image media preview imagetools searchreplace wordcount emoticons table tinymcespellchecker',
         toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link image media | forecolor backcolor emoticons | code preview',
         height: 300,
         automatic_uploads: true,
