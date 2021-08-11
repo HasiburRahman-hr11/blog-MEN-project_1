@@ -192,7 +192,7 @@ exports.deletePostGetController =async (req, res, next) =>{
         );
 
         req.flash('success', 'Post deleted successfully!');
-        res.redirect('/posts');
+        res.redirect('/dashboard');
 
     }catch(e){
         next(e)
