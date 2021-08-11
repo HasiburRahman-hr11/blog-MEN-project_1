@@ -1,0 +1,113 @@
+<%- include('../partials/header.ejs') %> 
+
+<div class="dashboard my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+                <div class="card p-3">
+                    <div class="user_card mb-4 text-center">
+                        <% if (user.profilePics) { %>
+                         <div class="user_img mb-3 mt-2">
+                            <img src=<%= user.profilePics %>  alt="Profile Picture">
+                         </div>                   
+                        <% } %>
+                        <div class="user_details">
+                            <h4><%= user.username %></h4>
+                            <p><%= user.email %></p>
+                        </div>
+                        <% if(Object.keys(profile.links).length > 0){ %> 
+                            <div class="text-center d-flex justify-content-center mt-2 mb-3">
+                                <% if(profile.links.website){ %> 
+                                    <a href="<%= profile.links.website %>" class="social-icon mx-1">
+                                        <i class="fas fa-globe-asia"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.facebook){ %> 
+                                    <a href="<%= profile.links.facebook %>" class="social-icon mx-1">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.twitter){ %> 
+                                    <a href="<%= profile.links.twitter %>" class="social-icon mx-1">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.github){ %> 
+                                    <a href="<%= profile.links.github %>" class="social-icon mx-1">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                <% } %> 
+                            </div>
+                        <% } %>
+                    </div>
+                    <%- include('../partials/admin-menu') %> 
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                <div class="card p-3">
+                    <h4 class="text-center mb-4">All Comments</h4>
+                    <div class="row">
+                        <div id="comment-holder">
+                            <% if (comments.length < 1 ) { %>
+                            <p class="text-center text-muted my-3">
+                                There is no comment yet!
+                            </p>
+                            <% }else{ %>
+                            <% for( let comment of comments.reverse( )) { %>
+                            <div class="bg-light p-2 pt-3 rounded mb-4">
+                                <div class="mb-3 card rounded p-3">
+                                    <h4>On Post: <a class="text-primary" href="/posts/<%= comment.post._id %> ">
+                                        <strong><%= comment.post.title %></strong>
+                                    </a></h4>
+                                </div>
+                                <div class="comment-item d-flex">
+                                    <div class="comment_avatar me-3">
+                                        <img src="<%= comment.user.profilePics %>" alt="User Avatar">
+                                    </div>
+                                    <div class="comment_content">
+                                        <p class="comment_author fw-bold mb-2"><%= comment.user.username %></p>
+                                        <p class="comment-body"><%= comment.body %> </p>
+                                        <p class="comment-time text-end mt-1 text-muted">
+                                            <small><%= new Date(comment.createdAt).toLocaleString() %></small>
+                                        </p>
+            
+                                        <% if ( comment.replies.length > 0 ) { %>
+                                        <div id="replies">
+                                            <% for( let reply of comment.replies ) { %>
+                                            <div class="reply_item d-flex mt-3">
+                                                <div class="comment_avatar me-3">
+                                                    <img src="<%= reply.user.profilePics %>" alt="">
+                                                </div>
+                                                <div class="reply_content">
+                                                    <p class="comment_author fw-bold mb-2"><%= reply.user.username %></p>
+                                                    <p class="comment-body"><%= reply.body %></p>
+                                                    <p class="comment-time text-end mt-2 text-muted">
+                                                        <small><%= new Date(comment.createdAt).toLocaleString() %></small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                        <% } %>
+                                        <div class="mb-4 mt-3 reply-input">
+                                            <textarea class="form-control" rows="3"
+                                                placeholder="Reply this comment and press enter!" data-comment="<%= comment._id %>"
+                                                id="reply" name="reply"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %> 
+<script src="/scripts/adminComment.js"></script>
+</body>
+</html>

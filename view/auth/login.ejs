@@ -1,0 +1,47 @@
+<%- include('../partials/header.ejs') %> 
+
+<div class="auth_form_wrapper py-5">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form class="auth_form py-5 rounded" method="POST" action="/auth/login">
+                    <h1>Login</h1>
+                    <p class="text-muted mt-2"> Please enter your email and password!</p> 
+
+                    <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Email Address"
+                    class="<%= error.email && 'is-invalid' %>"
+                    value="<%= value.email && value.email %>"
+                    > 
+                    <div class="invalid-feedback">
+                        <%= error.email %>
+                    </div>
+
+                    <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Password"
+                    class="<%= passErr.msg && 'is-invalid' %>"
+                    > 
+                    <div class="invalid-feedback">
+                        <%= passErr.msg %>
+                    </div>
+
+                    <input 
+                    type="submit" 
+                    name="" 
+                    value="Login"
+                    >
+
+                    <p class="text-muted mt-4"> Don't have an account? <a href="/auth/signup">Signup</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %> 
+</body>
+</html>

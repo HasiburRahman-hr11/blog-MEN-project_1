@@ -1,0 +1,69 @@
+<%- include('../partials/header.ejs') %> 
+
+<div class="auth_form_wrapper py-5">
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form class="auth_form py-5 rounded" method="POST" action="/auth/signup">
+                    <h1>Signup</h1>
+                    <p class="text-muted mt-2"> Please fill the form correctly!</p> 
+
+                    <input 
+                    type="text" 
+                    name="username" 
+                    placeholder="Username"
+                    class="<%= error.username && 'is-invalid' %>"
+                    value="<%= value.username && value.username %>"
+                    >
+                    <div class="invalid-feedback">
+                        <%= error.username %>
+                    </div>
+
+                    <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Email Address"
+                    class="<%= error.email && 'is-invalid' %>"
+                    value="<%= value.email && value.email %>"
+                    > 
+                    <div class="invalid-feedback">
+                        <%= error.email %>
+                    </div>
+
+                    <input 
+                    type="password" 
+                    name="password" 
+                    placeholder="Password"
+                    class="<%= error.password && 'is-invalid' %>"
+                    value="<%= value.password && value.password %>"
+                    > 
+                    <div class="invalid-feedback">
+                        <%= error.password %>
+                    </div>
+
+                    <input 
+                    type="password" 
+                    name="confirmPassword" 
+                    placeholder="Confirm Password"
+                    class="<%= error.confirmPassword && 'is-invalid' %>"
+                    > 
+                    <div class="invalid-feedback">
+                        <%= error.confirmPassword %>
+                    </div>
+
+                    <input 
+                    type="submit" 
+                    name="" 
+                    value="Signup"
+                    >
+
+                    <p class="text-muted mt-4"> Already have an account? <a href="/auth/login">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %> 
+</body>
+</html>

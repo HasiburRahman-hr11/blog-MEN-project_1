@@ -1,0 +1,113 @@
+<%- include('../partials/header.ejs') %> 
+
+<div class="create_post my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+                <div class="card p-3">
+                    <div class="user_card mb-4 text-center">
+                        <% if (user.profilePics) { %>
+                         <div class="user_img mb-3 mt-2">
+                            <img src=<%= user.profilePics %>  alt="Profile Picture">
+                         </div>                   
+                        <% } %>
+                        <div class="user_details">
+                            <h4><%= user.username %></h4>
+                            <p><%= user.email %></p>
+                        </div>
+                        <% if(Object.keys(profile.links).length > 0){ %> 
+                            <div class="text-center d-flex justify-content-center mt-2 mb-3">
+                                <% if(profile.links.website){ %> 
+                                    <a href="<%= profile.links.website %>" class="social-icon mx-1">
+                                        <i class="fas fa-globe-asia"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.facebook){ %> 
+                                    <a href="<%= profile.links.facebook %>" class="social-icon mx-1">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.twitter){ %> 
+                                    <a href="<%= profile.links.twitter %>" class="social-icon mx-1">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.github){ %> 
+                                    <a href="<%= profile.links.github %>" class="social-icon mx-1">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                <% } %> 
+                            </div>
+                        <% } %>
+                    </div>
+                    <%- include('../partials/admin-menu.ejs') %> 
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                <div class="post_form_card card p-3">
+                    <h3 class="text-center mb-3">Create a New Post</h3>
+                    <form class="admin_form" action="/posts/create-post" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="postTitle" class="form-label">Post Title</label>
+                            <input 
+                            type="text" 
+                            class="form-control <%= error.title ? 'is-invalid' : '' %>" 
+                            id="postTitle" 
+                            placeholder="Post Title"
+                            name="title"
+                            value="<%= value.title && value.title %>"
+                            >
+                            <div class="invalid-feedback">
+                                <%= error.title %> 
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tiny-mce-post-body" class="form-label">Post Body</label>
+                            <textarea 
+                            class="form-control <%= error.body ? 'is-invalid' : '' %>" 
+                            id="tiny-mce-post-body"
+                            name="body"
+                            rows="3"><%= value.body && value.body %></textarea>
+                            <div class="invalid-feedback">
+                                <%= error.body %> 
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="postThumbnail">Post Thumbnail</label>
+                            <input 
+                            type="file" 
+                            class="form-control" 
+                            id="postThumbnail"
+                            name="post-thumbnail"
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="postTags">Post Tags</label>
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="postTags"
+                            name="tags"
+                            <%= value.tags && value.tags %>
+                            placeholder="travel, life, music"
+                            >
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn btn-primary" type="submit">Create Post</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>
+<script src="https://cdn.tiny.cloud/1/k7gdf8j7a0963whbshthkdnj5cjehkmhzrkr1mbd0g1p670p/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="/scripts/tinymc.js"></script>
+</body>
+</html>

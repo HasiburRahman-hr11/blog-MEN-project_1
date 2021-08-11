@@ -1,0 +1,83 @@
+<%- include('../partials/header.ejs') %> 
+
+<div class="create_post my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+                <div class="card p-3">
+                    <div class="user_card mb-4 text-center">
+                        <% if (author.profile.profilePics) { %>
+                         <div class="user_img mb-3 mt-2">
+                            <img src=<%= author.profile.profilePics %>  alt="Profile Picture">
+                         </div>                  
+                        <% } %>
+                        <div class="user_details">
+                            <h4><%= author.profile.name %></h4>
+                            <p><%= author.profile.bio %></p>
+                        </div>
+                        <% if(Object.keys(author.profile.links).length > 0){ %> 
+                            <div class="text-center d-flex justify-content-center mt-2 mb-3">
+                                <% if(author.profile.links.website){ %> 
+                                    <a href="<%= author.profile.links.website %>" class="social-icon mx-1">
+                                        <i class="fas fa-globe-asia"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(author.profile.links.facebook){ %> 
+                                    <a href="<%= author.profile.links.facebook %>" class="social-icon mx-1">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(author.profile.links.twitter){ %> 
+                                    <a href="<%= author.profile.links.twitter %>" class="social-icon mx-1">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(author.profile.links.github){ %> 
+                                    <a href="<%= author.profile.links.github %>" class="social-icon mx-1">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                <% } %> 
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                <div class="card p-3">
+                    <h4 class="text-center mb-4 text-capitalize">Recent Posts by <%= author.profile.name %> </h4>
+                    <div class="row">
+                        <% author.profile.posts.forEach(post => { %>
+                            
+                        <% }) %>
+                        <% for( let post of author.profile.posts.slice(0 , 6).reverse() ) { %>
+                            <div class="col-md-6 col-sm-12 mb-4">
+                                <div class="card p-3 rounded shadow-sm">
+                                    <% if (post.thumbnail) { %>
+                                        <div class="post_img card-img">
+                                            <img src="<%= post.thumbnail %>" alt="Post Thumbnail">
+                                        </div>
+                                    <% } %>
+                                    <div class="card_title mt-2">
+                                        <a href="/posts/<%= post._id %>">
+                                            <h4 class="text-capitalize post_title"><%= post.title %></h4>
+                                        </a>
+                                    </div>
+                                    <div class="post_meta d-flex justify-content-between text-muted  mt-3">
+                                        <small><%= new Date(post.createdAt).toDateString() %></small>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>
+
+
+</body>
+</html>

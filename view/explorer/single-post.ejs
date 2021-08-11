@@ -1,0 +1,142 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-10 col-sm-12 mx-auto card p-lg-4 p-2">
+            <article>
+                <div class="mb-4">
+                    <h2 class="text-capitalize"><%= post.title %></h2>
+                    <div class="post_meta mt-3 d-flex justify-content-between bg-light px-3 py-2 rounded">
+
+                        <span class="fst-italic">
+                            <%= moment(post.createdAt) %>
+                            <span class="mx-2">|</span>
+                            By <a class="ms-1 text-uppercase fw-bold text-primary"
+                                href="/users/<%= post.author._id %>"><%= post.author.username %></a>
+                        </span>
+
+                        <% if (user) { %>
+                        <div class="bookmarks">
+                            <span class="bookmark" data-post="<%= post._id %>">
+                                <% if (bookmarks.includes(post._id)) { %>
+                                <i class="fas fa-bookmark text-primary" title="Remove from Bookmark"></i>
+                                <% }else { %>
+                                <i class="far fa-bookmark text-primary" title="Add to Bookmark"></i>
+                                <% } %>
+                            </span>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+                <% if (post.thumbnail) { %>
+                <div class="post_img mb-5">
+                    <img src="<%= post.thumbnail %> " alt="Post Thumbnail">
+                </div>
+                <% } %>
+
+                <div class="post_content mt-4">
+                    <%- post.body %>
+                </div>
+
+                <div class="like-btns mt-4">
+                    <% if (!user) { %>
+                    <p>
+                        <button class="btn btn-primary btn-sm" disabled>
+                            <i class="far fa-thumbs-up"></i> Like (<%= post.likes.length %> )
+                        </button>
+                        <button class="btn btn-danger btn-sm ms-2" disabled>
+                            <i class="far fa-thumbs-down"></i> Disike (<%= post.dislikes.length %> )
+                        </button>
+                    </p>
+                    <p class="text-muted my-4">To like, dislike or comment please
+                        <a href="/auth/login" class="btn btn-dark btn-sm ms-2">Login</a>
+                    </p>
+                    <% }else{ %>
+                    <p>
+                        <button class="btn btn-primary btn-sm" id="likeBtn" data-post="<%= post._id %>">
+                            <%- post.likes.includes(user._id) ? '<i class="fas fa-thumbs-up"></i> Liked' : '<i class="far fa-thumbs-up"></i> Like' %>
+                            (<%= post.likes.length %>)
+                        </button>
+                        <button class="btn btn-danger btn-sm ms-2" id="dislikeBtn" data-post="<%= post._id %>">
+                            <%- post.dislikes.includes(user._id) ? '<i class="fas fa-thumbs-down"></i> Disiked' : '<i class="far fa-thumbs-down"></i> Disike' %>
+                            (<%= post.dislikes.length %> )
+                        </button>
+                    </p>
+                    <% } %>
+                </div>
+            </article>
+
+
+            <!-- Commet Section -->
+
+            <% if (user) { %>
+            <section class="comment_section mt-5">
+                <h5 class="mb-4">Leave a comment</h5>
+                <!-- Comment Form -->
+                <div class="comment_form mb-4">
+                    <textarea name="" id="comment" rows="5" class="form-control"
+                        placeholder="Write your comment and press  enter." data-post="<%= post._id %>"></textarea>
+                </div>
+
+                <!-- Comment Lists -->
+                <div id="comment-holder">
+                    <% if (post.comments.length < 1 ) { %>
+                    <p class="text-center text-muted my-3">
+                        There is no comment yet!
+                    </p>
+                    <% }else{ %>
+                    <% for( let comment of post.comments.reverse( )) { %>
+                    <div class="comment-item d-flex bg-light p-2 rounded">
+                        <div class="comment_avatar me-3">
+                            <img src="<%= comment.user.profilePics %>" alt="User Avatar">
+                        </div>
+                        <div class="comment_content">
+                            <p class="comment_author fw-bold mb-2"><%= comment.user.username %></p>
+                            <p class="comment-body"><%= comment.body %> </p>
+                            <p class="comment-time text-end mt-1 text-muted">
+                                <small><%= new Date(comment.createdAt).toLocaleString() %></small>
+                            </p>
+
+                            <% if ( comment.replies.length > 0 ) { %>
+                            <div id="replies">
+                                <% for( let reply of comment.replies ) { %>
+                                <div class="reply_item d-flex mt-3">
+                                    <div class="comment_avatar me-3">
+                                        <img src="<%= reply.user.profilePics %>" alt="">
+                                    </div>
+                                    <div class="reply_content">
+                                        <p class="comment_author fw-bold mb-2"><%= reply.user.username %></p>
+                                        <p class="comment-body"><%= reply.body %></p>
+                                        <p class="comment-time text-end mt-2 text-muted">
+                                            <small><%= new Date(comment.createdAt).toLocaleString() %></small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                            <% } %>
+                            <div class="mb-4 mt-3 reply-input">
+                                <textarea class="form-control" rows="3"
+                                    placeholder="Reply this comment and press enter!" data-comment="<%= comment._id %>"
+                                    id="reply" name="reply"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+            </section>
+            <% } %>
+
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>
+<script src="/scripts/bookmark.js"></script>
+<script src="/scripts/likeDislike.js"></script>
+<script src="/scripts/comment.js"></script>
+</body>
+
+</html>

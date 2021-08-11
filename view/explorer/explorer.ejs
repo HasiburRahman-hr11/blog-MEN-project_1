@@ -1,0 +1,105 @@
+<%- include('../partials/header.ejs') %>
+
+<main>
+    <div class="banner">
+        <div class="banner_content">
+            <h2 class="mb-3">Blog</h2>
+            <p>Simple NODE Project</p>
+        </div>
+    </div>
+    <% if (posts.length > 0) { %>
+    <div class="posts_wrapper mt-5 mb-3">
+        <div class="container">
+            <div class="post_filter mb-4 text-center">
+                <div class="card py-3 rounded">
+                    <h5>Filter Post</h5>
+                    <div class="card-body pb-0">
+                        <a href="/posts?filter=latest" class="btn btn-sm <%= filter === 'latest' ? 'btn-primary' : 'btn-outline-primary' %>">Latest</a>
+
+                        <a href="/posts?filter=week" class="btn btn-sm mx-2 <%= filter === 'week' ? 'btn-primary' : 'btn-outline-primary' %>">Week</a>
+
+                        <a href="/posts?filter=month" class="btn btn-sm <%= filter === 'month' ? 'btn-primary' : 'btn-outline-primary' %>">Month</a>
+
+                        <a href="/posts?filter=all" class="btn btn-sm mx-2 <%= filter === 'all' ? 'btn-primary' : 'btn-outline-primary' %>">All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <% posts.forEach(post => { %>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card p-3 rounded shadow-sm">
+                        <% if (post.thumbnail) { %>
+                        <div class="post_img card-img">
+                            <img src="<%= post.thumbnail %>" alt="Post Thumbnail">
+                        </div>
+                        <% } %>
+                        <div class="post_meta d-flex justify-content-between text-muted mt-2 mb-3">
+                            <small>By<a class="ms-1 text-uppercase fw-bold text-primary"
+                                    href="/users/<%= post.author._id %>"><%= post.author.username %></a></small>
+                            <small><%= moment(post.createdAt) %></small>
+                        </div>
+                        <div class="card_title d-flex justify-content-between">
+                            <a href="/posts/<%= post._id %>">
+                                <h4 class="text-capitalize post_title"><%= post.title %></h4>
+                            </a>
+                            <% if (user) { %>
+                            <div class="bookmarks">
+                                <span class="bookmark" data-post="<%= post._id %>">
+                                    <% if (bookmarks.includes(post._id)) { %>
+                                    <i class="fas fa-bookmark text-primary" title="Remove from Bookmark"></i>
+                                    <% }else { %>
+                                    <i class="far fa-bookmark text-primary" title="Add to Bookmark"></i>
+                                    <% } %>
+                                </span>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+
+            </div>
+
+            <% if (totalPage > 1) { %>
+                <div class="pagination card rounded px-3 py-2 ">
+                    <nav class="d-flex justify-content-center">
+                        <ul class="pagination">
+                            <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                <a 
+                                class="page-link" 
+                                href="<%= `/posts?filter=${filter}&page=${currentPage-1}` %>" 
+                                aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+
+                            <% for( let i = 1; i <= totalPage; i++ ) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                    <a class="page-link" href="<%= `/posts?filter=${filter}&page=${i}` %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                            
+
+                            <li class="page-item <%= currentPage === totalPage ? 'disabled' : '' %>">
+                                <a class="page-link" href="<%= `/posts?filter=${filter}&page=${currentPage+1}` %>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            <% } %>
+            
+        </div>
+    </div>
+    <% } %>
+</main>
+
+<%- include('../partials/footer.ejs') %>
+<script src="/scripts/bookmark.js"></script>
+</body>
+
+</html>

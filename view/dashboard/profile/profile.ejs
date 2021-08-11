@@ -1,0 +1,87 @@
+<%- include('../../partials/header.ejs') %> 
+
+<div class="create_post my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+                <div class="card p-3">
+                    <div class="user_card mb-4 text-center">
+                        <% if (profile.profilePics) { %>
+                         <div class="user_img mb-3 mt-2">
+                            <img src=<%= profile.profilePics %>  alt="Profile Picture">
+                         </div>                  
+                        <% } %>
+                        <div class="user_details">
+                            <h4><%= profile.name %></h4>
+                            <p><%= profile.bio %></p>
+                        </div>
+                        <% if(Object.keys(profile.links).length > 0){ %> 
+                            <div class="text-center d-flex justify-content-center mt-2 mb-3">
+                                <% if(profile.links.website){ %> 
+                                    <a href="<%= profile.links.website %>" class="social-icon mx-1">
+                                        <i class="fas fa-globe-asia"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.facebook){ %> 
+                                    <a href="<%= profile.links.facebook %>" class="social-icon mx-1">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.twitter){ %> 
+                                    <a href="<%= profile.links.twitter %>" class="social-icon mx-1">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                <% } %> 
+                                <% if(profile.links.github){ %> 
+                                    <a href="<%= profile.links.github %>" class="social-icon mx-1">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                <% } %> 
+                            </div>
+                        <% } %>
+                    </div>
+                    <% if (user) { %>
+                        <%- include('../../partials/admin-menu.ejs') %>
+                    <% } %> 
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                <div class="card p-3">
+                    <h4 class="text-center mb-4">My Posts</h4>
+                    <div class="row">
+                        <% posts.forEach(post => { %>
+                            <div class="col-md-6 col-sm-12 mb-4">
+                                <div class="card p-3 rounded shadow-sm">
+                                    <% if (post.thumbnail) { %>
+                                        <div class="post_img card-img">
+                                            <img src="<%= post.thumbnail %>" alt="Post Thumbnail">
+                                        </div>
+                                    <% } %>
+                                    <div class="card_title mt-2">
+                                        <a href="/posts/<%= post._id %>">
+                                            <h4 class="text-capitalize post_title"><%= post.title %></h4>
+                                        </a>
+                                    </div>
+                                    <div class="post_meta d-flex justify-content-between text-muted  mt-3">
+                                        <small><%= new Date(post.createdAt).toDateString() %></small>
+
+                                        <span>
+                                            <a href="/posts/edit-post/<%= post._id %>" class="fw-bold text-primary">
+                                            Edit Post</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>
+
+
+</body>
+</html>
