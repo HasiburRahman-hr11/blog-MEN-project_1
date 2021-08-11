@@ -52,7 +52,7 @@ app.use((error,req,res,next) => {
 const PORT = process.env.PORT || 3001
 
 
-mongoose.connect('mongodb://localhost:27017/test-blog', {
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.pu1ex.mongodb.net/${process.env.DB_NAME}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,

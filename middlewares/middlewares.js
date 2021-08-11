@@ -3,13 +3,14 @@ const morgan = require('morgan');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
+require('dotenv').config();
 
 const {bindUserWithReq} = require('./authMiddlewares')
 const setLocals = require('./setLocals');
 
 
 const store = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/test-blog',
+    uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.pu1ex.mongodb.net/${process.env.DB_NAME}`,
     collection: 'sessions',
     expires: 1000 * 60 * 60 * 240 
 });
