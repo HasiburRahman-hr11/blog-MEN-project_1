@@ -1,6 +1,7 @@
 const Profile = require('../models/Profile');
 const User = require('../models/User');
 const fs = require('fs');
+const cloudinary = require('../utils/cloudinary');
 
 exports.profilePicsUploadController = async (req,res,next) =>{
 
@@ -8,8 +9,11 @@ exports.profilePicsUploadController = async (req,res,next) =>{
         try{
 
             let oldProfilePics = req.user.profilePics;
+            let filePath = await cloudinary.uploader.upload(req.file.path)
 
-            let profilePics = `/uploads/${req.file.filename}`
+
+            // let profilePics = `/uploads/${req.file.filename}`
+            let profilePics = filePath.secure_url;
 
             let profile = await Profile.findOne({user: req.user._id})
 
@@ -26,12 +30,15 @@ exports.profilePicsUploadController = async (req,res,next) =>{
             )
 
             if(oldProfilePics !== '/uploads/avatar.png'){
-                fs.unlink(`public${oldProfilePics}` , (err)=>{
-                    if(err){
-                        console.log(err)
-                    }
-                })
+                cloudinary.uploader.destroy(filePath.secure_url, function(result) { console.log(result) });
             }
+            // if(oldProfilePics !== '/uploads/avatar.png'){
+            //     fs.unlink(`public${oldProfilePics}` , (err)=>{
+            //         if(err){
+            //             console.log(err)
+            //         }
+            //     })
+            // }
 
             res.status(200).json({profilePics})
     

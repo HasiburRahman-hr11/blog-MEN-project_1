@@ -211,6 +211,11 @@ textarea:focus {
     object-fit: cover;
 }
 
+.post_img img{
+    max-height: 180px;
+    object-fit: cover;
+}
+
 .post_title {
     text-overflow: ellipsis;
     display: -webkit-box;

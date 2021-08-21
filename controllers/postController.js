@@ -1,6 +1,7 @@
 const Post = require('../models/Post');
 const Profile = require('../models/Profile');
 const readingTime = require('reading-time');
+const cloudinary = require('../utils/cloudinary');
 
 const Flash = require('../utils/Flash');
 const { validationResult } = require('express-validator');
@@ -60,9 +61,10 @@ exports.createPostPostController = async (req, res, next) => {
     })
 
     if (req.file) {
-        post.thumbnail = `/uploads/${req.file.filename}`
+        let filePath = await cloudinary.uploader.upload(req.file.path)
+        post.thumbnail = filePath.secure_url
+        // post.thumbnail = `/uploads/${req.file.filename}`
     }
-    console.log(req.file)
 
     try {
 
@@ -151,7 +153,9 @@ exports.editPostPostController = async (req, res, next) => {
 
         let thumbnail = post.thumbnail
         if (req.file) {
-            thumbnail = `/uploads/${req.file.filename}`
+            let filePath = await cloudinary.uploader.upload(req.file.path)
+            thumbnail = filePath.secure_url;
+            // thumbnail = `/uploads/${req.file.filename}`
         }
         
 
