@@ -211,7 +211,7 @@ textarea:focus {
     object-fit: cover;
 }
 
-.post_img img{
+.post_img.card-img img{
     max-height: 180px;
     object-fit: cover;
 }
